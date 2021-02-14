@@ -15,10 +15,10 @@ public:
   enum
   {
     WATCH_COL_LABEL = 0,
-    WATCH_COL_TYPE,
-    WATCH_COL_ADDRESS,
-    WATCH_COL_LOCK,
     WATCH_COL_VALUE,
+    WATCH_COL_LOCK,
+    WATCH_COL_ADDRESS,
+    WATCH_COL_TYPE,
     WATCH_COL_NUM
   };
 
