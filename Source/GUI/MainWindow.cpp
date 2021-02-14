@@ -49,7 +49,7 @@ void MainWindow::makeMenus()
 
   m_actViewScanner = new QAction(tr("&Scanner"), this);
   m_actViewScanner->setCheckable(true);
-  m_actViewScanner->setChecked(true);
+  m_actViewScanner->setChecked(false);
 
   m_actQuit = new QAction(tr("&Quit"), this);
   m_actAbout = new QAction(tr("&About"), this);
@@ -94,6 +94,7 @@ void MainWindow::makeMenus()
 void MainWindow::initialiseWidgets()
 {
   m_scanner = new MemScanWidget();
+  m_scanner->hide();
   connect(m_scanner, &MemScanWidget::requestAddWatchEntry, this, &MainWindow::addWatchRequested);
   connect(m_scanner, &MemScanWidget::requestAddAllResultsToWatchList, this,
           &MainWindow::addAllResultsToWatchList);
