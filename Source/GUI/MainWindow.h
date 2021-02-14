@@ -47,6 +47,7 @@ private:
   void initialiseWidgets();
   void makeLayouts();
   void makeMemViewer();
+  void openDefaultWatchFileAttempt();
   void firstHookAttempt();
 
   MemWatchWidget* m_watcher;

@@ -526,10 +526,25 @@ QTimer* MemWatchWidget::getFreezeTimer() const
   return m_freezeTimer;
 }
 
+void MemWatchWidget::openDefaultWatchFile()
+{
+  QString fileName = "default.dmw";
+  QFile f(fileName);
+  
+  if (f.exists()) {
+    openWatchFile(fileName);
+  }
+}
+
 void MemWatchWidget::openWatchFile()
 {
   QString fileName = QFileDialog::getOpenFileName(this, "Open watch list", m_watchListFile,
                                                   "Dolphin memory watches file (*.dmw)");
+  this->openWatchFile(fileName);
+}
+
+void MemWatchWidget::openWatchFile(QString fileName)
+{
   if (fileName != "")
   {
     if (m_watchModel->hasAnyNodes())

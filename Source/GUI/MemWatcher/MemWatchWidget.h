@@ -23,7 +23,9 @@ public:
   void addWatchEntry(MemWatchEntry* entry);
   void onDeleteSelection();
   void onDropSucceeded();
+  void openDefaultWatchFile();
   void openWatchFile();
+  void openWatchFile(QString fileName);
   void copySelectedWatchesToClipBoard();
   void cutSelectedWatchesToClipBoard();
   void pasteWatchFromClipBoard(MemWatchTreeNode* node);

@@ -20,6 +20,7 @@ MainWindow::MainWindow()
   makeMenus();
   DolphinComm::DolphinAccessor::init();
   makeMemViewer();
+  openDefaultWatchFileAttempt();
   firstHookAttempt();
 }
 
@@ -151,6 +152,11 @@ void MainWindow::makeMemViewer()
   connect(m_viewer, &MemViewerWidget::addWatchRequested, m_watcher, &MemWatchWidget::addWatchEntry);
   connect(m_watcher, &MemWatchWidget::goToAddressInViewer, this,
           &MainWindow::onOpenMemViewerWithAddress);
+}
+
+void MainWindow::openDefaultWatchFileAttempt()
+{
+  m_watcher->openDefaultWatchFile();
 }
 
 void MainWindow::firstHookAttempt()
