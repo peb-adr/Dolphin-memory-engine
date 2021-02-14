@@ -91,6 +91,15 @@ bool DolphinAccessor::isMEM2Present()
   return m_instance->isMEM2Present();
 }
 
+u32 DolphinAccessor::getMEM1ToMEM2Distance()
+{
+  if (m_instance == nullptr)
+  {
+    return 0;
+  }
+  return m_instance->getMEM1ToMEM2Distance();
+}
+
 bool DolphinAccessor::isValidConsoleAddress(const u32 address)
 {
   if (getStatus() != DolphinStatus::hooked)
@@ -112,7 +121,7 @@ Common::MemOperationReturnCode DolphinAccessor::updateRAMCache()
   {
     m_updatedRAMCache = new char[Common::MEM1_SIZE + Common::MEM2_SIZE];
     // Read Wii extra RAM
-    if (!DolphinComm::DolphinAccessor::readFromRAM(Common::dolphinAddrToOffset(Common::MEM2_START),
+    if (!DolphinComm::DolphinAccessor::readFromRAM(Common::dolphinAddrToOffset(Common::MEM2_START, getMEM1ToMEM2Distance()),
                                                    m_updatedRAMCache + Common::MEM1_SIZE,
                                                    Common::MEM2_SIZE, false))
       return Common::MemOperationReturnCode::operationFailed;
@@ -142,10 +151,12 @@ void DolphinAccessor::copyRawMemoryFromCache(char* dest, const u32 consoleAddres
   if (isValidConsoleAddress(consoleAddress) &&
       isValidConsoleAddress((consoleAddress + static_cast<u32>(byteCount)) - 1))
   {
-    u32 offset = Common::dolphinAddrToOffset(consoleAddress);
+    u32 MEM2Distance = getMEM1ToMEM2Distance();
+    u32 offset = Common::dolphinAddrToOffset(consoleAddress, MEM2Distance);
     u32 ramIndex = 0;
     if (offset >= Common::MEM1_SIZE)
-      ramIndex = offset - (Common::MEM2_START - Common::MEM1_END);
+      // Need to account for the distance between the end of MEM1 and the start of MEM2
+      ramIndex = offset - (MEM2Distance - Common::MEM1_SIZE);
     else
       ramIndex = offset;
     std::memcpy(dest, m_updatedRAMCache + ramIndex, byteCount);
