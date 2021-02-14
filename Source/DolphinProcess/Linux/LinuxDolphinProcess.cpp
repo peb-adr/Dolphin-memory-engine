@@ -26,8 +26,12 @@ bool LinuxDolphinProcess::obtainEmuRAMInformations()
       {
         u64 firstAddress = 0;
         u64 SecondAddress = 0;
-        std::string firstAddressStr("0x" + line.substr(0, 12));
-        std::string secondAddressStr("0x" + line.substr(13, 12));
+
+        // fix irregular address formatting
+        size_t pos_dash = line.find("-");
+        size_t pos_space = line.find(" ");
+        std::string firstAddressStr("0x" + line.substr(0, pos_dash));
+        std::string secondAddressStr("0x" + line.substr(pos_dash + 1, pos_space));
 
         firstAddress = std::stoul(firstAddressStr, nullptr, 16);
         SecondAddress = std::stoul(secondAddressStr, nullptr, 16);
